@@ -1,0 +1,130 @@
+{% extends "app/base.html" %}
+
+{% load static %}
+{% load mathfilters %}
+
+{% block content %}
+
+   
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'app/img/ban_lo.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2> Shop</h2>
+                        <div class="breadcrumb__option">
+                            <a href="./index.html">Home</a>
+                            <span>Shop</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Product Section Begin -->
+    <section class="product spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-5">
+                    <div class="sidebar">
+                        <div class="sidebar__item">
+                            <h4>Categories</h4>
+                            <ul>
+                            <li><a href="{% url 'app:category' 'Farine_Semoul' %}">Semolina flour</a></li>
+                            <li><a href="{% url 'app:category' 'Pates' %}">Pasta</a></li>
+                            <li><a href="{% url 'app:category' 'Gateaux' %}">Cakes</a></li>
+                            <li><a href="{% url 'app:category' 'Sucrerie' %}">Sugar factory</a></li>
+                            <li><a href="{% url 'app:category' 'Graines' %}">Seeds</a></li>
+                            <li><a href="{% url 'app:category' 'Laitiers' %}">dairymen</a></li>
+                            <li><a href="{% url 'app:category' 'Boisson' %}">Beverage</a></li>
+                            <li><a href="{% url 'app:category' 'Produit_Fait_Maison' %}">Homemade Product</a></li>
+                            <li><a href="{% url 'app:category' 'Compliment_Alimentaire' %}">supplements</a></li>
+                              </ul>
+                        </div>
+                      
+                        <div class="sidebar__item">
+                            <div class="latest-product__text">
+                                <h4>Latest Products</h4>
+                                <div class="latest-product__slider owl-carousel">
+                                    {% for chunk in latest_N_Products %}
+
+                                    <div class="latest-prdouct__slider__item">
+                                        {% for item in chunk %}
+                                            <a href="{% url 'app:shop' %}" class="latest-product__item">
+                                                <div class="latest-product__item__pic">
+                                                    <img src="{{ item.image }}" alt="">
+                                                </div>
+                                                <div class="latest-product__item__text">
+                                                    <h6>{{ item.title }}</h6>
+                                                    <span>{{ item.price }}dz</span>
+                                                </div>
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-7">
+                    <div class="filter__item">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5">
+                                <div class="filter__sort">
+                                    <span>Sort By</span>
+                                    <select>
+                                        <option value="0">Default</option>
+                                        <option value="0">Default</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <div class="filter__found">
+                                    <h6><span>{{ products.count }}</span> Products found</h6>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-3">
+                                <div class="filter__option">
+                                    <span class="icon_grid-2x2"></span>
+                                    <span class="icon_ul"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for product in products %}
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="product__item">
+                                <div class="product__item__pic set-bg" data-setbg="{{ product.image1.url }}">
+                                    <ul class="product__item__pic__hover">
+                                       
+                                        <li><a><i  value="Click"onclick="testdemo();" class="fa fa-shopping-cart update-cart" data-product="{{ product.id }}" data-action="add"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6><a href="{% url 'shop:productinfo' product.id %}">{{ product.title }}</a></h6>
+                                    <h5>{{ product.price }} dz</h5>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+<!--                    <div class="product__pagination">-->
+<!--                        <a href="#">1</a>-->
+<!--                        <a href="#">2</a>-->
+<!--                        <a href="#">3</a>-->
+<!--                        <a href="#"><i class="fa fa-long-arrow-right"></i></a>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Section End -->
+
+{% endblock %}

@@ -1,0 +1,223 @@
+{% extends "app/base.html" %}
+
+{% load static %}
+{% load i18n %}
+{% trans 'Lorem ipsum ...' %}
+
+{% block content %}
+    <!-- Hero Section Begin -->
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                
+                <div class="col-lg-9">
+                   
+                    <div class="hero__item set-bg" data-setbg="{% static 'app/img/banner.jpg' %}">
+                        <div class="hero__text">
+                            <span>FRUIT FRESH</span>
+                            <h2>Free Gluten <br />100% Healthy</h2>
+                            <p>Delivery Available</p>
+                            <a href="{% url 'app:shop'%}" class="primary-btn">SHOP NOW</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- Categories Section Begin -->
+   
+    <!-- Categories Section End -->
+
+    <!-- Featured Section Begin -->
+    <section class="featured spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2>Featured Product</h2>
+                    </div>
+                    <div class="featured__controls">
+                        <ul>
+                            <li class="active" data-filter="*"><img src="{% static 'app/icon/all.png' %}" width="40" height="40" ><br>all</li>
+                            <li data-filter=".Pates"><img src="{% static 'app/icon/Pates.png' %}" width="40" height="40" ><br>Pasta</li>
+                            <li data-filter=".Laitiers"><img src="{% static 'app/icon/les-produits-laitiers.png' %}" width="40" height="40" ><br>Dairymen</li>
+                            <li data-filter=".Boissons"><img src="{% static 'app/icon/boisson.png' %}" width="40" height="40" ><br>Beverage</li>
+                            <li data-filter=".Produit_Fait_Maison"><img src="{% static 'app/icon/produitsfaitmaison.png' %}" width="40" height="40" ><br>Homemade</li>
+                            <li data-filter=".Farine_Semoul"><img src="{% static 'app/icon/Farine.png' %}" width="40" height="40" ><br>Semolina flour</li>
+                            <li data-filter=".Gateaux"><img src="{% static 'app/icon/Gateaux.png' %}" width="40" height="40" ><br>Cakes</li>
+                            <li data-filter=".Sucrerie"><img src="{% static 'app/icon/des-sucreries.png' %}" width="40" height="40" ><br>Sugar factory</li>
+                            <li data-filter=".Graines"><img src="{% static 'app/icon/Graines.png' %}" width="40" height="40" ><br>Seeds</li>
+                            <li data-filter=".Compliment_Alimentaire"><img src="{% static 'app/icon/complement-alimentaire.png' %}" width="40" height="40" ><br>supplements</li>
+                           
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row featured__filter">
+                {% for item in featured_N_products %}
+                    <div class="col-lg-3 col-md-4 col-sm-6 mix {{ item.category }} {{ item.category }}">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg" data-setbg="{{ item.image }}">
+                                
+                            </div>
+                            <div class="featured__item__text">
+                                <h3><a href="{% url 'shop:productinfo' item.product_id %}">{{ item.title }}</a></h3>
+                                <h5>{{ item.price }}dz</h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- Featured Section End -->
+
+    <!-- Banner Begin -->
+    <div class="banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="banner__pic">
+                        <img src="{% static 'app/img/banner/banner-1.jpg' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="banner__pic">
+                        <img src="{% static 'app/img/banner/banner-2.jpg' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Banner End -->
+
+    <!-- Latest Product Section Begin -->
+    <section class="latest-product spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="latest-product__text">
+                        <h4>Latest Products</h4>
+                        <div class="latest-product__slider owl-carousel">
+                            {% for chunk in latest_N_Products %}
+
+                                <div class="latest-prdouct__slider__item">
+                                    {% for item in chunk %}
+                                        <a href="{% url 'shop:productinfo' item.product_id %}" class="latest-product__item">
+                                            <div class="latest-product__item__pic">
+                                                <img src="{{ item.image }}" alt="">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6>{{ item.title }}</h6>
+                                                <span>{{ item.price }}dz</span>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="latest-product__text">
+                        <h4>Top Rated Products</h4>
+                        <div class="latest-product__slider owl-carousel">
+                            {% for chunk in favourite_N_Products %}
+                                <div class="latest-prdouct__slider__item">
+                                    {% for item in chunk %}
+                                        <a href="{% url 'shop:productinfo' item.product_id %}" class="latest-product__item">
+                                            <div class="latest-product__item__pic">
+                                                <img src="{{ item.image }}" alt="">
+                                            </div>
+                                            <div class="latest-product__item__text">
+                                                <h6>{{ item.title }}</h6>
+                                                <span>{{ item.price }} dz</span>
+                                            </div>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Latest Product Section End -->
+
+    <!-- Blog Section Begin -->
+    <section class="from-blog spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title from-blog__title">
+                        <h2>From The Blog</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for blog in blogs %}
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <div class="blog__item">
+                        <div class="blog__item__pic">
+                            <img src="{{ blog.image.url }}" alt="">
+                        </div>
+                        <div class="blog__item__text">
+                            <ul>
+                                <li><i class="fa fa-calendar-o"></i> {{ blog.published|date:'F jS Y' }}</li>
+                            </ul>
+                            <h5><a href="{% url 'blog:detail' blog.id %}">{{ blog.title }}</a></h5>
+                            <p>{{ blog.description|striptags|truncatechars:250}} </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+         {% if blogs.has_other_pages %}
+					<!--Pagination-->
+					<nav class="d-flex justify-content-center wow fadeIn">
+						<ul class="pagination pg-blue">
+
+						{% if blogs.has_previous %}
+							<!--Arrow left-->
+							<li class="page-item ">
+							<a class="page-link" href="?page={{blogs.previous_page_number}}" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+								<span class="sr-only">Previous</span>
+							</a>
+							</li>
+						{% else %}
+							<li class="page-item disabled"></li>
+						{% endif %}
+
+						{% for pages in blogs.paginator.page_range %}
+							{% if blogs.number == pages %}
+							<li class="page-item ">
+								<a class="page-link" href="#">{{pages}}</a>
+							</li>
+							{% else %}
+							<li class="page-item"><a class="page-link current" href="?page={{pages}}">{{pages}}</a></li>
+							{% endif %}    
+						{% endfor %}
+
+						{% if blogs.has_next %}
+							<li class="page-item">
+							<a class="page-link" href="?page={{blogs.next_page_number}}" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+								<span class="sr-only">Next</span>
+							</a>
+							</li>
+							{% else %}
+							<li class="page-item disabled"></li>
+						{% endif %}
+						</ul>
+					</nav>
+					<!--Pagination-->
+					{% endif %}
+    </section>
+    <!-- Blog Section End -->
+{% endblock %}

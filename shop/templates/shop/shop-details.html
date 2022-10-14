@@ -1,0 +1,272 @@
+{% extends "app/base.html" %}
+
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg=" ">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>{{ product.get_category_display }} Package</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'app:home' %}">Home</a>
+                            <a>{{ product.get_category_display }}</a>
+                            <a>{{ product.title }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+   
+   {% if product.discounted_price is not none %} 
+    <!-- Product Details Section Begin -->
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <img class="product__details__pic__item--large"
+                                src="{{ product.image1.url }}" alt="">
+                        </div>
+                        <div class="product__details__pic__slider owl-carousel">
+                            {% if product.image2  %}
+                            <img data-imgbigurl="{{ product.image2.url }}"
+                                src="{{ product.image2.url }}" alt="">
+                            {% endif %}
+                            {% if product.image3 %}
+                            <img data-imgbigurl="{{ product.image3.url }}"
+                                src="{{ product.image3.url }}" alt="">
+                            {% endif %}
+                            {% if product.image4 %}
+                            <img data-imgbigurl="{{ product.image4.url }}"
+                                src="{{ product.image4.url }}" alt="">
+                            {% endif %}
+                            {% if product.image5  %}
+                            <img data-imgbigurl="{{ product.image5.url }}"
+                                src="{{ product.image5.url }}" alt="">
+                            {% endif %}
+                            <img data-imgbigurl="{{ product.image1.url }}"
+                                src="{{ product.image1.url }}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3>{{ product.title }}</h3>
+                       
+                        <div class="product__details__price">{{product.price|sub:product.discounted_price}} dz</div>
+                        <p>{{ product.shortinfo }}</p>
+                        <div class="product__details__quantity">
+                            
+                        </div>
+                        
+                            {% if product.quantity1 == 'available' %}
+                               {% if request.user.is_authenticated %}
+                                    <a href="#" value="Click"onclick="testdemo();"  class="primary-btn update-cart" data-product="{{ product.id }}" data-action="add">ADD TO CART</a>
+                                    {% else %}
+                                    <a href="{% url 'app:loginuser' %}" value="Click"onclick="testdemo2();"  class="primary-btn update-cart" >ADD TO CART</a>
+                                    
+                                    {% endif %}
+                                    <ul>
+                                        <li><b>Availability</b> <span class="text-sucess">{{ product.quantity1 }}</span></li>
+                                        <li><b>Delivery</b> <span>01 day delivery. </span>&nbsp;&nbsp; <a target="_blank" href="http://allojibli.dz/"><img src="{% static 'app/img/hero/allo_jibli.jpg' %}"  height="35"  widht="35"></a></li>
+                                        <li><b>Weight</b> <span>{{ product.weight }} </span></li>
+                                        <li><b>Share on</b>
+                                            <div class="share">
+                                                <a target="_blank" href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
+                                                <a target="_blank" href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
+                                                <a target="_blank" href="https://www.instagram.com/" ><i class="fa fa-instagram"></i></a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    {% else %}
+                                    <a href="#" class="primary-btn "  >ADD TO CART</a><br>
+                                    <span  class="text-danger"> out of stocks </span>
+                                    <ul>
+                                        <li><b>Availability</b> <span class="text-danger">{{ product.quantity1 }}</span></li>
+                                        <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
+                                        <li><b>Weight</b> <span>{{ product.weight }} </span></li>
+                                        <li><b>Share on</b>
+                                        <div class="share">
+                                                <a target="_blank" href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
+                                                <a target="_blank" href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
+                                                <a target="_blank" href="https://www.instagram.com/" ><i class="fa fa-instagram"></i></a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                            {% endif %}
+                        
+
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                    aria-selected="true">Description</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Products Infomation</h6>
+                                    <p>{{ product.description|safe }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+
+    {% else %}
+
+     <!-- Product Details Section Begin -->
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <img class="product__details__pic__item--large"
+                                src="{{ product.image1.url }}" alt="">
+                        </div>
+                        <div class="product__details__pic__slider owl-carousel">
+                            {% if product.image2  %}
+                            <img data-imgbigurl="{{ product.image2.url }}"
+                                src="{{ product.image2.url }}" alt="">
+                            {% endif %}
+                            {% if product.image3 %}
+                            <img data-imgbigurl="{{ product.image3.url }}"
+                                src="{{ product.image3.url }}" alt="">
+                            {% endif %}
+                            {% if product.image4 %}
+                            <img data-imgbigurl="{{ product.image4.url }}"
+                                src="{{ product.image4.url }}" alt="">
+                            {% endif %}
+                            {% if product.image5  %}
+                            <img data-imgbigurl="{{ product.image5.url }}"
+                                src="{{ product.image5.url }}" alt="">
+                            {% endif %}
+                            <img data-imgbigurl="{{ product.image1.url }}"
+                                src="{{ product.image1.url }}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3>{{ product.title }}</h3>
+                       
+                        <div class="product__details__price">{{ product.price }}dz</div>
+                        <p>{{ product.shortinfo }}</p>
+                        <div class="product__details__quantity">
+                            
+                        </div>
+                        {% if product.quantity1 == 'available' %}
+                          {% if request.user.is_authenticated %}
+                                    <a href="#" value="Click"onclick="testdemo();"  class="primary-btn update-cart" data-product="{{ product.id }}" data-action="add">ADD TO CART</a>
+                                    {% else %}
+                                    <a href="{% url 'app:loginuser' %}" value="Click"onclick="testdemo2();"  class="primary-btn update-cart" >ADD TO CART</a>
+                                    
+                                    {% endif %}
+                        
+                        
+                        <ul>
+                            <li><b>Availability</b> <span class="text-sucess">{{ product.quantity1 }}</span></li>
+                            <li><b>Delivery</b> <span>01 day delivery. </span>&nbsp;&nbsp; <a target="_blank" href="http://allojibli.dz/"><img src="{% static 'app/img/hero/allo_jibli.jpg' %}"  height="35"  widht="35"></a></li>
+                            <li><b>Weight</b> <span>{{ product.weight }} </span></li>
+                            <li><b>Share on</b>
+                                <div class="share">
+                                    <a target="_blank" href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
+                                    <a target="_blank" href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
+                                    <a target="_blank" href="https://www.instagram.com/" ><i class="fa fa-instagram"></i></a>
+                                </div>
+                            </li>
+                        </ul>
+                        {% else %}
+                        <a href="#" class="primary-btn "  >ADD TO CART</a><br>
+                        <span  class="text-danger"> out of stocks </span>
+                         <ul>
+                            <li><b>Availability</b> <span class="text-danger">{{ product.quantity1 }}</span></li>
+                            <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
+                            <li><b>Weight</b> <span>{{ product.weight }} </span></li>
+                            <li><b>Share on</b>
+                               <div class="share">
+                                    <a target="_blank" href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
+                                    <a target="_blank" href="https://twitter.com/"><i class="fa fa-twitter"></i></a>
+                                    <a target="_blank" href="https://www.instagram.com/" ><i class="fa fa-instagram"></i></a>
+                                </div>
+                            </li>
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                    aria-selected="true">Description</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <div class="product__details__tab__desc">
+                                    <h6>Products Infomation</h6>
+                                    <p>{{ product.description|safe }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+    {% endif %}
+
+
+
+    <!-- Related Product Section Begin -->
+    <section class="related-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title related__product__title">
+                        <h2>Related Product</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for related_product in products %}
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="{{ related_product.image1.url }}">
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a href="{% url 'shop:productinfo' related_product.id %}">{{ related_product.title }}</a></h6>
+                                <h5>{{ related_product.price }}dz</h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- Related Product Section End -->
+
+{% endblock %}

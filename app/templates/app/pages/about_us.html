@@ -1,0 +1,68 @@
+{% extends "app/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+    
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'app/img/ban_lo.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>About Us</h2>
+                        <div class="breadcrumb__option">
+                            <a href="./index.html">Home</a>
+                            <a>About Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+   <!-- About Start -->
+    <br>
+    <br>
+    <br>
+
+   <div class="container">
+    <div class="container-fluid py-6 px-5">
+        <div class="row g-5">
+            <div class="col-lg-7">
+                <h2 class="display-5 text-uppercase mb-4">We are <span class="text-success">the Leader</span> in healthy food</h2>
+                <h4 class="text-uppercase mb-3 text-body">Lolo Nutrition store selling diet products are sugar-free and gluten-free you will find everything you are looking for with us</h4>
+                <p>At the origin of the creation of LOLO Nutrition Food, the founder, felt the need to EAT HEALTHY Gluten-free when traveling and during lunch breaks that were often too short. She wanted to design a range of fresh, healthy, gourmet and take-out products.
+The use of products from ORGANIC FARMING has become obvious. Indeed, at My Healthy Food, we have the deep conviction that organic is better for our health and is necessary to preserve our environment. We favor fresh, seasonal ingredients and quality raw materials.
+In addition, we have made it a point of honor to respect a diet that is often too forgotten: that of people suffering from FOOD ALLERGIES AND INTOLERANCES. We have therefore chosen to exclude the 14 allergens that must be declared from our recipes.
+To guarantee better traceability of our products, we manufacture our dishes ourselves in our manufacturing workshop located 20 km from Paris. We collaborate with chefs passionate about gastronomy and nutrition to concoct the best healthy and gourmet recipes for you!</p>
+                <div class="row gx-5 py-2">
+                    <div class="col-sm-6 mb-2">
+                        <p class="fw-bold mb-2"><i class="fa fa-check text-success me-3"></i>You will find organic products without coloring preservatives and palm oil</p>
+                        <p class="fw-bold mb-2"><i class="fa fa-check text-success me-3"></i>Our homemade products are prepared in the conditions of celiac disease</p>
+                    </div>
+                    <div class="col-sm-6 mb-2">
+              
+                        <p class="fw-bold mb-2"><i class="fa fa-check text-success me-3"></i>We work exclusively with 100% gluten-free products</p>
+                        <p class="fw-bold mb-2"><i class="fa fa-check text-success me-3"></i>First Working Process</p>
+                    </div>
+                </div>
+                <p class="mb-4"></p>
+                <img src="{% static 'img/signature.jpg' %}" alt="">
+            </div>
+            <div class="col-lg-5 pb-5" style="min-height: 400px;">
+                <div class="position-relative bg-dark-radial h-100 ms-5">
+                    <img  src="{% static 'app/img/ba.jpg' %}" style="object-fit: cover;">
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- About End -->
+
+
+{% endblock content %}

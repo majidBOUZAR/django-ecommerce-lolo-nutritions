@@ -1,0 +1,127 @@
+{% extends "app/base.html" %}
+
+{% load static %}
+{% load mathfilters %}
+
+{% block content %}
+   
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Shopping Cart</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'app:home' %}">Home</a>
+                            <a>Shopping Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shoping Cart Section Begin -->
+    <section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product">Products</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr>
+                                    <td class="shoping__cart__item">
+                                        <img src="{{ item.product.image1.url }}" alt="" height="200" width="200">
+                                        <h5>{{ item.product.title }}</h5>
+                                    </td>
+                                    <td class="shoping__cart__price">
+                                        {% if item.product.discounted_price is not none %}
+                                        {{ item.product.price|sub:item.product.discounted_price }}dz
+                                        {% else %}
+                                        {{ item.product.price }}dz
+                                        {% endif %}
+                                    </td>
+                                    <td class="shoping__cart__quantity">
+                                        <div class="quantity">
+                                            <div class="pro-qty" style="text-align: center;">
+                                                <span class="dec qtybtn update-cart" data-product="{{ item.product.id }}" data-action="remove">-</span>
+                                                <input type="text" value="{{ item.quantity }}">
+                                                <span class="inc qtybtn update-cart" data-product="{{ item.product.id }}" data-action="add">+</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="shoping__cart__total">
+                                        {{ item.get_total }}
+                                    </td>
+                                   
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__btns">
+                        <a href="{% url 'app:shop' %}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shoping__continue">
+
+                    </div>
+                </div>
+                
+            
+                
+                <div class="col-lg-6 " >
+                    <div class="shoping__checkout print">
+                    <img src="{% static 'app/img/lolo1.png' %}" alt=""  height="50" width="50"></a>
+                        <h5 style="text-align:center;">Cart Total</h5>
+                        
+                        <ul>
+                            <li>Subtotal <span>{{ order.get_cart_total.0|floatformat:2 }} dz</span></li>
+                            <li>Shipping <span>200 dz</span></li>
+                            <li>Total <span>{{ order.get_cart_total.1|floatformat:2 }} dz</span></li>
+                        </ul>
+                        {% if order.get_cart_total.0 == 0 %}
+                        <a href="#" class="primary-btn " value="Click"onclick="proceedcart();">PROCEED TO CHECKOUT</a>
+                        <span class="text-danger">you can't proceed out your cart is empty <a  href="{% url 'app:shop' %}" >let's shopping</a></span>
+                        {% else %}
+                        <a href="{% url 'shop:checkout' %}" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        {% endif %}
+
+                    </div>
+                    
+                        
+                </div>
+
+
+                
+            </div>
+        </div>
+    </section>
+    <!-- Shoping Cart Section End -->
+    <script type="text/javascript">
+function proceedcart() {
+alert ("sorry your cart is empty");
+}
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,237 @@
+{% extends "app/base.html" %}
+
+{% load static %}
+{% load mathfilters %}
+
+{% block content %}
+
+
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2> Our Product </h2>
+                        <div class="breadcrumb__option">
+                            <a href="./index.html">Home</a>
+                            <a>Shop</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Product Section Begin -->
+    <section class="product spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-5">
+                    <div class="sidebar">
+                        <div class="sidebar__item">
+                            <div class="latest-product__text">
+                                <h4>Latest Products</h4>
+                                <div class="latest-product__slider owl-carousel">
+                                    {% for chunk in latest_N_Products %}
+
+                                    <div class="latest-prdouct__slider__item">
+                                        {% for item in chunk %}
+                                            <a href="#" class="latest-product__item">
+                                                <div class="latest-product__item__pic">
+                                                    <img src="{{ item.image }}" alt="">
+                                                </div>
+                                                <div class="latest-product__item__text">
+                                                    <h6>{{ item.title }}</h6>
+                                                    <span>{{ item.price }}dz</span>
+                                                </div>
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-7">
+                  
+                    <div class="filter__item">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5">
+                                <div class="filter__sort">
+                                    <span>Sort By</span>
+                                   
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4">
+                                <div class="filter__found">
+                                    <h6><span>{{ products_count.count }}</span> Products found</h6>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-3">
+                                <div class="filter__option">
+                                    <span class="icon_grid-2x2"></span>
+                                    <span class="icon_ul"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     
+
+
+
+                    <div class="row">
+                        {% for product in products %}
+                        
+                        {% if product.quantity1 == 'available' %}
+                        {% if product.discounted_price is none %}
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="product__item">
+                                <div class="product__item__pic set-bg"  data-setbg="{{ product.image1.url }}">
+                                
+                                    <ul class="product__item__pic__hover">
+                                    {% if request.user.is_authenticated %}
+
+                                        <li><a><i value="Click"onclick="testdemo();" class="fa fa-shopping-cart update-cart" data-product="{{ product.id }}" data-action="add"></i></a></li>
+                                    {% else %}
+                                        <li><a><i value="Click"onclick="testdemo2();" class="fa fa-shopping-cart update-cart" data-product="{{ product.id }}" data-action="add"></i></a></li>
+
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6><a href="{% url 'shop:productinfo' product.id %}">{{ product.title }}</a></h6>
+                                        <h5><a class="text-success"> Available </a></h5>
+                                        
+                                    <h5>{{ product.price }} dz</h5>
+                                </div>
+                            </div>
+                        </div>
+                       {% endif %}
+                        {% else %}
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="product__item">
+                                <div class="product__item__pic set-bg" data-setbg="{{ product.image1.url }}">
+                                    <ul class="product__item__pic__hover">
+                                
+                                        <li><a><i value="Click"onclick="testdemo11();" class="fa fa-shopping-cart "></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6><a href="{% url 'shop:productinfo' product.id %}">{{ product.title }}</a></h6>
+                                        <h5><a class="text-danger"> stock sold </a></h5>
+                                        
+                                    <h5>{{ product.price }} dz</h5>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+
+
+
+
+                    {% if products.has_other_pages %}
+					<!--Pagination-->
+					<nav class="d-flex justify-content-center wow fadeIn">
+						<ul class="pagination pg-blue">
+
+						{% if products.has_previous %}
+							<!--Arrow left-->
+							<li class="page-item ">
+							<a class="page-link" href="?page={{products.previous_page_number}}" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+								<span class="sr-only">Previous</span>
+							</a>
+							</li>
+						{% else %}
+							<li class="page-item disabled"></li>
+						{% endif %}
+
+						{% for pages in products.paginator.page_range %}
+							{% if products.number == pages %}
+							<li class="page-item ">
+								<a class="page-link" href="#">{{pages}}</a>
+							</li>
+							{% else %}
+							<li class="page-item"><a class="page-link current" href="?page={{pages}}">{{pages}}</a></li>
+							{% endif %}    
+						{% endfor %}
+
+						{% if products.has_next %}
+							<li class="page-item">
+							<a class="page-link" href="?page={{products.next_page_number}}" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+								<span class="sr-only">Next</span>
+							</a>
+							</li>
+							{% else %}
+							<li class="page-item disabled"></li>
+						{% endif %}
+						</ul>
+					</nav>
+					<!--Pagination-->
+					{% endif %}
+                </div>
+            </div>
+
+
+
+
+            
+              <div class="product__discount">
+                        <div class="section-title product__discount__title" style="text-align:center;">
+                            <h2 >Sale Off</h2>
+                        </div>
+                        <div class="row">
+                            {% for product in products %}
+                                {% if product.discounted_price is not none %}
+                                    <div class="product__discount__slider owl-carousel">
+                                        <div class="col-lg-4">
+                                            <div class="product__discount__item">
+                                                <div class="product__discount__item__pic set-bg"
+                                                    data-setbg="{{ product.image1.url }}">
+                                                    <div class="product__discount__percent">-{{product.discounted_price|floatformat}}dz</div>
+                                                    <ul class="product__item__pic__hover">
+                                                       
+                                                        <li><a href="#"><i class="fa fa-shopping-cart update-cart" data-product="{{ product.id }}" data-action="add"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="product__discount__item__text">
+                                                    <span>{{ product.get.category.display }} </span>
+                                                    <h5><a href="{% url 'shop:productinfo' product.id %}"> {{ product.title }} </a></h5>
+                                                    {% if product.quantity1 == 'sold' %}
+                                                    <h5><a class="text-danger"> Out of stock </a></h5>
+                                                    {% else %}
+                                                    <h5><a class="text-success"> Available </a></h5>
+                                                    {% endif %}
+                                                    <div class="product__item__price"><span>{{ product.price}}</span></div>
+                                                    <h2> <a  class="text-danger">{{ product.price |sub:product.discounted_price}}</a></h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+        </div>
+    </section>
+    <!-- Product Section End -->
+
+<script type="text/javascript">
+function testdemo() {
+alert ("The product has been added to your cart");
+}
+
+function testdemo11() {
+alert (" this item is not available");
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "app/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'app/img/ban_lo.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Cart</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    <br><br>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            <h4 class="text-center">No product in your cart!</h4><br>
+            <div class="text-center">
+                <img src="{% static 'app/img/cart/emptycartimage.jpg' %}" alt=""
+                     class="img-fluid img-thumbnail w-25">
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+    <br><br>
+    <!-- Checkout Section End -->
+{% endblock %}

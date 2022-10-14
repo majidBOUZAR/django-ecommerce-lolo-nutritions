@@ -1,0 +1,218 @@
+{% extends "app/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+  
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg=" ">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Checkout</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{% url 'app:home' %}">Home</a>
+                            <span>Checkout</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Checkout Section Begin -->
+    <section class="checkout spad">
+        <div class="container">
+            <div class="checkout__form">
+                <h4>Billing Details</h4>
+                <form action="" id="form" method="post" onsubmit="return false">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-8 col-md-6">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Fist Name<span>*</span></p>
+                                        <input type="text" value="{{ customer.user.first_name }}" name="first_name">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Last Name<span>*</span></p>
+                                        <input type="text" value="{{ customer.user.last_name }}" name="last_name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="checkout__input">
+                                <p>Country<span>*</span></p>
+                                <input type="text" value="{{ shipping_address.country }}" name="country">
+                            </div>
+                            <div class="checkout__input">
+                                <p>Address<span>*</span></p>
+                                <input type="text" value="{{ shipping_address.address }}" class="checkout__input__add" name="address">
+                            </div>
+                            <div class="checkout__input">
+                                <p>City<span>*</span></p>
+                                <input type="text"  value="{{ shipping_address.city }}" name="city">
+                            </div>
+                            <div class="checkout__input">
+                                <p>Postcode / ZIP<span>*</span></p>
+                                <input type="text" value="{{ shipping_address.postal_code }}" name="postal_code">
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Phone<span>*</span></p>
+                                        <input type="text"  value="{{ shipping_address.phone_number }}" name="phone_number">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <p>Email<span>*</span></p>
+                                        <input type="text" value="{{ customer.email }}" name="email">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    <style>
+   @media print {
+
+       body{visibility : hidden ;}
+       .print{visibility : visible ;}
+   }
+
+                </style>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="checkout__order print">
+                                <h4>Your Order</h4>
+                                <div class="checkout__order__products">Products <span>Total</span></div>
+                                {% for item in items %}
+                                <ul>
+                                    <li >{{ item.product.title }} <span>{{ item.get_total }}dz</span></li>
+                                </ul>
+                                {% endfor %}
+                                <div class="checkout__order__subtotal">Subtotal <span>{{ order.get_cart_total.0|floatformat:2 }} dz</span></div>
+                                <div class="checkout__order__shipping">Shipping <span>200 dz</span></div>
+                                <div class="checkout__order__total">Total <span>{{ order.get_cart_total.1|floatformat:2 }} dz</span></div>
+
+                                <div id="paypal-button-container"></div>
+
+                                {% if order.get_cart_total.0 == 0 %}
+                                <button type="submit" class="site-btn" value="Click"onclick="proceedcart();">PLACE ORDER</button>
+                                <span class="text-danger">you can't proceed out your cart is empty <a  href="{% url 'app:shop' %}" >let's shopping again</a></span>
+                                {% else %}
+                                <button type="submit" class="site-btn" id="make-payment">PLACE ORDER</button>
+                                <span class="text-body">confirm your order</span>
+                                {% endif %}
+                                
+
+                            </div>
+                            
+                        <br>
+                        <button onclick="window.print();return false;"  class="site-btn">PRINT ORDER</button><br>
+                         <a class="text-body">you can print your total</a><br><br><br>
+                         <a class="text-body">delivry with allo jibli</a>&nbsp;&nbsp; <a target="_blank" href="http://allojibli.dz/"><img src="{% static 'app/img/hero/allo_jibli.jpg' %}"  height="35"  widht="35"></a>
+                        </div>
+                        
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- Checkout Section End -->
+
+
+<script src="https://www.paypal.com/sdk/js?client-id=ATXD5OJTk7RgieWTtW4rl3nCdoLGPY2h_Kyt6cu9YHBebid3_-UgaQzQXhGRnyDF7-BC-__rQcOGGYAO&currency=USD&disable-funding=credit"></script>
+
+<script type="text/javascript">
+    var total = '{{ order.get_cart_total.2}}'
+
+    var form = document.getElementById('form')
+
+
+
+    document.getElementById('make-payment').addEventListener('click',function(e){
+
+        console.log('clicked')
+        document.getElementById('make-payment').style.visibility='hidden'
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: parseFloat(total).toFixed(2)
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(orderData) {
+                    // Successful capture! For demo purposes:
+                    console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                    submitFormData()
+                    // Replace the above to show a success message within this page, e.g.
+                    // const element = document.getElementById('paypal-button-container');
+                    // element.innerHTML = '';
+                    // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                    // Or go to another URL:  actions.redirect('thank_you.html');
+                });
+            }
+
+
+        }).render('#paypal-button-container');
+    })
+    function submitFormData(){
+        console.log('Payment button clicked')
+        var userFormData = {
+            'name': form.first_name.value+' '+form.last_name.value,
+            'email': form.email.value,
+            'total':total,
+        }
+        var shippingInfo = {
+            'address': form.address.value,
+            'city':form.city.value ,
+            'country': form.country.value,
+            'postal_code': form.postal_code.value,
+            'phone_number': form.phone_number.value ,
+        }
+        var url = 'http://127.0.0.1:8000/shop/process_order/'
+        fetch(url,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'X-CSRFToken':csrftoken,
+            },
+            body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo})
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Success: ',data);
+            alert('Transaction completed , it will be delivered on 2 days THANK YOU');
+
+            cart = {}
+            document.cookie = 'cart='+ JSON.stringify(cart) + ";domain=;path=/"
+
+
+            window.location.replace("{% url 'app:shop' %}");
+        })
+        .catch(err => console.log(err));
+    }
+</script>
+    <script type="text/javascript">
+function proceedcart() {
+alert ("sorry your cart it's empty");
+}
+
+</script>
+
+{% endblock %}

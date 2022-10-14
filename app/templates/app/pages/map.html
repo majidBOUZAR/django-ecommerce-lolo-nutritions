@@ -1,0 +1,45 @@
+{% extends "app/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+    
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{% static 'app/img/ban_lo.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Our Sitemap</h2>
+                        <div class="breadcrumb__option">
+                            <a href="./index.html">Home</a>
+                            <a>Our Sitemap</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+ <!-- Map Begin -->
+    <div class="map">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d407.55076465381296!2d-0.6236644087397453!3d35.19635182856276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd7f01b9736594cf%3A0xd970eae78a8df58b!2sLolo%20Nutrition!5e0!3m2!1sfr!2sdz!4v1653739324583!5m2!1sfr!2sdz" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="map-inside">
+            
+            <div class="inside-widget">
+                <h4>sidi bel abbes</h4>
+                <ul>
+                    <li>Phone: +213 6666666</li>
+                    <li>Lolo Nutrition  Rue des fréres Chaabane, Sidi Bel Abbès</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Map End -->
+
+
+
+{% endblock content %}
