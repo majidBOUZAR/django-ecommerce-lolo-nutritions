@@ -1,6 +1,6 @@
 # django-ecommerce-lolo-store
-is django ecommerce of lolo-store which is store of selling pruduct free gluten
-this project include all features (blog with comment , payment , shop , admin dashboard , sale off , trend product ...)
+Django ecommerce of lolo-store which is store of selling pruduct free gluten.
+This project include all features (blog with comment , payment , shop , admin dashboard , sale off , trend product ...) with (html ,css , javaScript , python) 
 to run this project you must follow all steps :
 - install virtual env : 'pip install virtualenv'
 - create new folder and open the terminal inside it and create  new venv : 'virtualenv NameOfVenv'
